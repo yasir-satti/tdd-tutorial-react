@@ -7,8 +7,15 @@ describe('PersonList', () => {
     beforeAll(() => {
         personListWrapper = shallow(<PersonList />)
     })
-    it('', () => {
+    it('renders a ul element', () => {
         const personListUls = personListWrapper.find('ul');
         expect(personListUls).toHaveLength(1);
     });
+
+    it('renders no li elements when no people exist', () => {
+        const people = [];
+        personListWrapper = shallow(<PersonList people={people}/>);
+        const personListItems = personListWrapper.find('li');
+        expect(personListItems).toHaveLength(0);
+    })
 })
