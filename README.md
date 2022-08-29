@@ -294,3 +294,76 @@ beforeAll(() => {
 ```
 This makes test #1 redundant so delete it.
 
+### #5: test
+Now we need to check the people property is being passed into PeopleList
+```
+  it('', () => {
+    const personList = appWrapper.find(PersonList);
+    expect(personList.props().people).toEqual(appWrapper.state().people);
+  })
+```
+Test fails because we did not pass it
+```
+ FAIL  src/App.test.js
+  App
+    ✓ render person list (7 ms)
+    ✓ has state
+    ✓ has a people proprty on state
+    ✕  (6 ms)
+
+  ● App › 
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: []
+    Received: undefined
+
+      28 |   it('', () => {
+      29 |     const personList = appWrapper.find(PersonList);
+    > 30 |     expect(personList.props().people).toEqual(appWrapper.state().people);
+         |                                       ^
+      31 |   })
+      32 | })
+      33 |
+```
+
+```
+class App extends Component {
+  state = {people: []}
+  render() {
+    return (
+      <div className="App">
+        <PersonList />
+      </div>
+    );
+  }
+}
+```
+So let us fix that
+```
+class App extends Component {
+  state = {people: []}
+  render() {
+    return (
+      <div className="App">
+        <PersonList  people={this.state.people}/>
+      </div>
+    );
+  }
+}
+```
+Test passes
+```
+ PASS  src/App.test.js
+  App
+    ✓ render person list (9 ms)
+    ✓ has state (1 ms)
+    ✓ has a people proprty on state (1 ms)
+    ✓ passes people property of state to personList as prop (4 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        0.577 s, estimated 1 s
+```
+
