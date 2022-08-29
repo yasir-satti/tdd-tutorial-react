@@ -267,3 +267,30 @@ it('has state', () => {
     expect(appState).not.toBeNull();
   })
 ```
+
+### #4: Peoeple property defined for Person list state
+Person list will have a list of people. But we need to have a people property first
+```
+it('', () => {
+    const appWrapper = shallow(<App />);
+    const appState = appWrapper.state();
+    expect(appState.people).toBeDefined();
+})
+```
+Test fails, so let us fix that.
+All we need to do is add people property to state.
+```
+state = {people: []}
+```
+Test now passes.
+
+Refactor, replace repetitive appWrapper with beforeAll()
+```
+let appWrapper;
+
+beforeAll(() => {
+  appWrapper = shallow(<App />);
+})
+```
+This makes test #1 redundant so delete it.
+

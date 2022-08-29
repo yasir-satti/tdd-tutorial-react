@@ -3,19 +3,25 @@ import App from './App';
 import PersonList from './component/PersonList';
 
 describe('App', () => {
-  it('renders without crashing', () => {
-    const appWrapper = shallow(<App />);
+
+  let appWrapper;
+
+  beforeAll(() => {
+    appWrapper = shallow(<App />);
   })
 
   it('render person list', () => {
-    const appWrapper = shallow(<App />);
     const personList = appWrapper.find(PersonList);
     expect(personList).toHaveLength(1);
   })
 
   it('has state', () => {
-    const appWrapper = shallow(<App />);
     const appState = appWrapper.state();
     expect(appState).not.toBeNull();
+  })
+
+  it('has a people proprty on state', () => {
+    const appState = appWrapper.state();
+    expect(appState.people).toBeDefined();
   })
 })
