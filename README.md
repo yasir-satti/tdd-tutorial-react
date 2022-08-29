@@ -186,4 +186,84 @@ it('render person list', () => {
 })
 ```
 
+### #3: Person list has a state
+We want to assert that people list has a state
+```
+ it('', () => {
+    const appWrapper = shallow(<App />);
+    const appState = appWrapper.state();
+  })
+```
+It fails complaining state() can only b called on class componenets
+```
+ ShallowWrapper::state() can only be called on class components
 
+      16 |   it('', () => {
+      17 |     const appWrapper = shallow(<App />);
+    > 18 |     const appState = appWrapper.state();
+         |                                 ^
+      19 |   })
+      20 | })
+      21 |
+```
+Currently App() is defined as a function
+```
+import React from 'react';
+import PersonList from './component/PersonList'
+
+function App() {
+  return (
+    <div className="App">
+      <PersonList />
+    </div>
+  );
+}
+
+export default App;
+```
+We need to change that to class. So let go to App componenet and fix that
+```
+import React, { Component } from "react";
+import PersonList from "./component/PersonList";
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <PersonList />
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+Test passes
+
+Now let us write the assertion. We expect state to be not Null
+```
+expect(appState).not.toBeNull();
+```
+But it fails. The is because we did not declare state in App comopnenet. So let us fix that
+```
+class App extends Component {
+  state = {}
+  render() {
+    return (
+      <div className="App">
+        <PersonList />
+      </div>
+    );
+  }
+}
+```
+Test passes
+
+Refactor by adding test description
+```
+it('has state', () => {
+    const appWrapper = shallow(<App />);
+    const appState = appWrapper.state();
+    expect(appState).not.toBeNull();
+  })
+```
