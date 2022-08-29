@@ -294,7 +294,7 @@ beforeAll(() => {
 ```
 This makes test #1 redundant so delete it.
 
-### #5: test
+### #5: passes people property of state to personList as prop
 Now we need to check the people property is being passed into PeopleList
 ```
   it('', () => {
@@ -366,4 +366,32 @@ Tests:       4 passed, 4 total
 Snapshots:   0 total
 Time:        0.577 s, estimated 1 s
 ```
+
+### #6: PersonList renders
+we want to make sure the PersonList component renders ok.
+So we create a test file for the PersonList component with the render test.
+We check for ul tag
+```
+import React from 'react';
+import { shallow } from 'enzyme';
+import PersonList from './PersonList';
+
+describe('PersonList', () => {
+    let personListWrapper;
+    beforeAll(() => {
+        personListWrapper = shallow(<PersonList />)
+    })
+    it('', () => {
+        const personListUls = personListWrapper.find('ul');
+        expect(personListUls).toHaveLength(1);
+    });
+})
+```
+Test fails because we do not have a ul tag in PersonList componnent, yet. So let us have one
+```
+import React from "react";
+
+export default () => <ul></ul>;
+```
+Now test passes.
 
