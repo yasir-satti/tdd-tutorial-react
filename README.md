@@ -394,4 +394,21 @@ import React from "react";
 export default () => <ul></ul>;
 ```
 Now test passes.
-
+### #7: PersonList renders no li elements when no people exist (ZOMBIE with zero items)
+Now looking at ZOMBIE scenario we want to test when PersonList has Zero items
+```
+    it('', () => {
+        expect(personListItems).toHaveLength(0);
+    })
+```
+Test fails, so need to decalre personListItems.
+We need to have any emplty people list passed to personList, and then inspect it
+```
+    it('renders no li elements when no people exist', () => {
+        const people = [];
+        personListWrapper = shallow(<PersonList people={people}/>);
+        const personListItems = personListWrapper.find('li');
+        expect(personListItems).toHaveLength(0);
+    })
+```
+Test passes
