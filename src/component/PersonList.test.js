@@ -18,4 +18,11 @@ describe('PersonList', () => {
         const personListItems = personListWrapper.find('li');
         expect(personListItems).toHaveLength(0);
     })
+
+    it('renders 1 li element when one person exist', () => {
+        const people = [{firstName: 'Alan', lastName: 'Turing'}];
+        personListWrapper = shallow(<PersonList people={people}/>);
+        const personListItems = personListWrapper.find('li');
+        expect(personListItems).toHaveLength(1);
+    })
 })
