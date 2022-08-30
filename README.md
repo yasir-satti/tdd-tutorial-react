@@ -402,7 +402,7 @@ Now looking at ZOMBIE scenario we want to test when PersonList has Zero items
     })
 ```
 Test fails, so need to decalre personListItems.
-We need to have any emplty people list passed to personList, and then inspect it
+We need to have an emplty people list passed to personList, and then inspect it
 ```
     it('renders no li elements when no people exist', () => {
         const people = [];
@@ -410,5 +410,73 @@ We need to have any emplty people list passed to personList, and then inspect it
         const personListItems = personListWrapper.find('li');
         expect(personListItems).toHaveLength(0);
     })
+```
+Test passes
+
+### #8: PersonList renders 1 li element when no people list has 1 element (ZOMBIE with 1 item)
+Now looking at ZOMBIE scenario we want to test when PersonList has 1 items
+```
+    it('', () => {
+        expect(personListItems).toHaveLength(1);
+    })
+```
+Test fails, so need to decalre personListItems.
+We need to have a people list passed to personList with 1 item, and then inspect it
+```
+    it('renders no li elements when no people exist', () => {
+        const people = [{firstName: 'Alan', lastName: 'Turing'}];
+        personListWrapper = shallow(<PersonList people={people}/>);
+        const personListItems = personListWrapper.find('li');
+        expect(personListItems).toHaveLength(1);
+    })
+```
+Test fails because PersonList component still returns single ui element. So let us fix that
+```
+import React from "react";
+
+export default () => <ul><li></li></ul>;
+```
+This test passes but breaks the previous test
+```
+FAIL  src/component/PersonList.test.js
+  ● PersonList › renders no li elements when no people exist
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received object: {}
+
+      17 |         personListWrapper = shallow(<PersonList people={people}/>);
+      18 |         const personListItems = personListWrapper.find('li');
+    > 19 |         expect(personListItems).toHaveLength(0);
+         |                                 ^
+      20 |     })
+      21 |
+      22 |     it('renders 1 li element when one person exist', () => {
+```
+Now the previous test gets an element backinstead of zero.
+So we need to check the people prop passed to PersonList that it exists and of length 1 to pass the 1 li element test
+```
+export default (props) => {
+  if (props.people && props.people.length == 1)
+    return (
+      <ul>
+        <li></li>
+      </ul>
+    );
+  return <ul></ul>;
+};
+```
+Test passes
+
+We can refactor PersonList component
+```
+export default (props) =>
+    <ul>
+        {
+            props.people && props.people.length == 1 ? <li></li>: undefined
+        }
+    </ul>
 ```
 Test passes
