@@ -481,7 +481,7 @@ export default (props) =>
 ```
 Test passes
 
-### #9: test
+### #9: PersonList renders maney li elements (ZOMBIE with maney items)
 Now looking at ZOMBIE scenario we want to test when PersonList has N items
 So write our test with 2 items
 ```
@@ -536,7 +536,7 @@ people.map((person, i) => <li key={i}></li>)
 Test still passes
 
 Refactor test name
-'''
+```
 it('renders 1 li element for each person that exists'
 ```
 Test still pass
