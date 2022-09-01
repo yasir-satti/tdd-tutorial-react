@@ -480,3 +480,63 @@ export default (props) =>
     </ul>
 ```
 Test passes
+
+### #9: test
+Now looking at ZOMBIE scenario we want to test when PersonList has N items
+So write our test with 2 items
+```
+    it('', () => {
+        const people = [
+            {firstName: 'Alan', lastName: 'Turing'},
+            {firstName: 'Kick', lastName: 'Douglas'}
+        ];
+        personListWrapper = shallow(<PersonList people={people}/>);
+        const personListItems = personListWrapper.find('li');
+        expect(personListItems).toHaveLength(2);
+    })
+```
+But test fails because it is expecting 2 and got 0
+So let u slook at PersonList function. From previous test it checks it item is 1 they is why.
+Let us fix that.
+So a better way is to run a map on PersonList items passed as props
+```
+export default (props) =>
+    <ul>
+        {
+            props.people ? props.people.map(() => <li></li>): undefined
+        }
+    </ul>
+```
+Now test passes but with a consol.error
+```
+console.error
+      Warning: Each child in a list should have a unique "key" prop.
+```
+This is because React requires a unique index to track the items mapped, so
+```
+export default (props) =>
+    <ul>
+        {
+            props.people ? props.people.map((person, i) => <li key={i}></li>): undefined
+        }
+    </ul>
+```
+Error gone
+
+Now refactor PersonList function:
+
+- from props destructure people only and assign default value
+```
+export default ({ people = []})
+```
+- This removed the need to check props.people exists and we can staright way just run our map
+```
+people.map((person, i) => <li key={i}></li>)
+```
+Test still passes
+
+Refactor test name
+'''
+it('renders 1 li element for each person that exists'
+```
+Test still pass

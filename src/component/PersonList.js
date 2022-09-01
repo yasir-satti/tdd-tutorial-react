@@ -1,8 +1,8 @@
 import React from "react";
 
-export default (props) =>
+export default ({ people = []}) =>
     <ul>
         {
-            props.people && props.people.length == 1 ? <li></li>: undefined
+            people.map((person, i) => <li key={i}></li>)
         }
     </ul>
