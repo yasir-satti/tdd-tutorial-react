@@ -26,13 +26,17 @@ describe('PersonList', () => {
         expect(personListItems).toHaveLength(1);
     })
 
-    it('renders 1 li element for each person that exists', () => {
+    
+    
+    it('renders first and last name of a person', () => {
         const people = [
             {firstName: 'Alan', lastName: 'Turing'},
-            {firstName: 'Kirk', lastName: 'Douglas'}
         ];
         personListWrapper = shallow(<PersonList people={people}/>);
         const personListItems = personListWrapper.find('li');
-        expect(personListItems).toHaveLength(2);
+
+        expect(personListItems.text()).toContain(people[0].firstName);
+        expect(personListItems.text()).toContain(people[0].lastName);
+
     })
 })
