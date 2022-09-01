@@ -8,7 +8,17 @@
 4. Usecase requirements
 5. Tests 
 <br>#1: Rendering without crashing
-<br>#2: 
+<br>#2: render a person list
+<br>#3: Person list has a state
+<br>#4: Peoeple property defined for Person list state
+<br>#5: passes people property of state to personList as prop
+<br>#6: PersonList renders
+<br>#7: PersonList renders no li elements when no people exist (ZOMBIE with zero items)
+<br>#8: PersonList renders 1 li element when no people list has 1 element (ZOMBIE with 1 item)
+<br>#9: PersonList renders maney li elements (ZOMBIE with maney items)
+<br>#10: Render first and last name of person
+
+6. Conclusion 
 
 
 ## 1. Testing pyramid
@@ -541,7 +551,7 @@ it('renders 1 li element for each person that exists'
 ```
 Test still pass
 
-### #10: Per
+### #10: Render first and last name of person
 Now let us test the display of people
 ```
     it('', () => {
