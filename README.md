@@ -540,3 +540,77 @@ Refactor test name
 it('renders 1 li element for each person that exists'
 ```
 Test still pass
+
+### #10: Per
+Now let us test the display of people
+```
+    it('', () => {
+        const people = [
+            {firstName: 'Alan', lastName: 'Turing'},
+        ];
+        personListWrapper = shallow(<PersonList people={people}/>);
+        const personListItems = personListWrapper.find('li');
+        
+        expect(personListItems.text()).toContain(people[0].firstName);
+        expect(personListItems.text()).toContain(people[0].lastName);
+
+    })
+```
+Test fails
+```
+expect(received).toContain(expected) // indexOf
+
+    Expected substring: "Alan"
+    Received string:    ""
+
+      36 |         const personListItems = personListWrapper.find('li');
+      37 |         
+    > 38 |         expect(personListItems.text()).toContain(people[0].firstName);
+         |                                        ^
+      39 |         expect(personListItems.text()).toContain(people[0].lastName);
+      40 |
+      41 |     })
+```
+So why is that?
+
+PersonList function is returning empty li element, so let us fix that
+```
+export default ({ people = []}) =>
+    <ul>
+        {
+            people.map(
+                (person, i) =>
+                    <li key={i}>
+                        {person.firstName}
+                        {person.lastName}
+                    </li>
+                )
+        }
+    </ul>
+```
+Test passes
+
+Refactor description of the test
+```
+it('renders first and last name of a person'
+```
+Test still passes
+
+## 6. Conclusion
+
+We practiced the steps of TDD:
+
+1. write faling test
+2. Write enough code fo the test to pass
+3. refactor by looking at principles like
+   - [DRY](https://thevaluable.dev/dry-principle-cost-benefit-example/)
+   - [YAGNI](https://builtin.com/software-engineering-perspectives/yagni)
+   - [SOLID](https://www.digitalocean.com/community/conceptual_articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design)
+   - ...
+
+We let tests drive what we need to do/design next?
+how we want to shape this application?
+
+
+
+
